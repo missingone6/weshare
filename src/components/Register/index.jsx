@@ -1,22 +1,47 @@
 import { useNavigate } from 'react-router-dom'
-import { Button, Form, Input, Space } from 'antd';
+import { Button, Form, Input, Space, message } from 'antd';
 import { LockOutlined, UserOutlined, SmileOutlined, RobotOutlined } from '@ant-design/icons';
 import RegisterWrapper from './style';
 import useSvgCaptcha from '../hooks/useSvgCaptcha';
+import { registerAction } from '../../api/login';
+import { CAPTCHA_ID } from '../../storage/config';
 
 const Register = () => {
-  const [svgCaptcha, refreshSvgCaptcha] = useSvgCaptcha();
-
   const navigate = useNavigate();
-  const onFinish = (values) => {
-    // todo
-    console.log('Success register:', values);
-    navigate('/login')
+  const [svgCaptcha, refreshSvgCaptcha] = useSvgCaptcha();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const onFinish = async (obj) => {
+    const { username, password, code, name } = obj;
+    const cid = localStorage.getItem(CAPTCHA_ID);
+    const result = await registerAction({
+      username,
+      password,
+      cid,
+      code,
+      name
+    })
+    if (result.code === 200) {
+      messageApi.open({
+        type: 'success',
+        content: result.msg + ',即将跳转到登录页',
+      });
+      setTimeout(() => {
+        navigate('/login');
+      }, 1000);
+    } else {
+      refreshSvgCaptcha();
+      messageApi.open({
+        type: 'error',
+        content: result.msg,
+      });
+    }
   };
 
 
   return (
     <RegisterWrapper>
+      {contextHolder}
       <Form
         name="normal_register"
         className="register-form"
@@ -31,13 +56,13 @@ const Register = () => {
         </Form.Item>
         <Form.Item
           name="name"
-          rules={[{ required: true, message: '请输入2至16位的昵称',min:2,max:16 }]}
+          rules={[{ required: true, message: '请输入2至16位的昵称', min: 2, max: 16 }]}
         >
           <Input prefix={<RobotOutlined />} placeholder="请输入昵称" />
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: '请输入6至16位的密码',min:6,max:16 }]}
+          rules={[{ required: true, message: '请输入6至16位的密码', min: 6, max: 16 }]}
         >
           <Input
             prefix={<LockOutlined />}
@@ -49,7 +74,7 @@ const Register = () => {
           name="repeatPassword"
           dependencies={['password']}
           rules={[
-            { required: true, message: '请输入6至16位的密码',min:6, max:16 },
+            { required: true, message: '请输入6至16位的密码', min: 6, max: 16 },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {

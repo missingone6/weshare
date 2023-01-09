@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Input, message, Space } from 'antd';
 import { LockOutlined, UserOutlined, SmileOutlined } from '@ant-design/icons';
 import { loginAction } from '../../api/login';
 import localStorage from '../../storage/localStorage';
-import { CAPTCHA_ID } from '../../storage/config';
+import { CAPTCHA_ID, TOKEN } from '../../storage/config';
 import useSvgCaptcha from '../hooks/useSvgCaptcha';
 import LoginWrapper from './style';
 
@@ -22,8 +22,16 @@ const Login = () => {
       code
     })
     if (result.code === 200) {
-      navigate('/home')
+      messageApi.open({
+        type: 'success',
+        content: result.msg + ',即将跳转到首页',
+      });
+      localStorage.setItem(TOKEN, result.token);
+      setTimeout(() => {
+        navigate('/home')
+      }, 1000);
     } else {
+      refreshSvgCaptcha();
       messageApi.open({
         type: 'error',
         content: result.msg,
@@ -48,7 +56,7 @@ const Login = () => {
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: '请输入您的密码' }]}
+          rules={[{ required: true, message: '请输入6至16位的密码', min: 6, max: 16 }]}
         >
           <Input
             prefix={<LockOutlined />}
