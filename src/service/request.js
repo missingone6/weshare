@@ -1,4 +1,6 @@
 import axios from "axios";
+import { TOKEN } from "../storage/config";
+import localStorage from "../storage/localStorage";
 import { BASE_URL, TIMEOUT } from './config';
 import errorHandle from "./errorHandle";
 
@@ -11,6 +13,8 @@ const service = axios.create({
 });
 
 service.interceptors.request.use((config) => {
+  const token = localStorage.getItem(TOKEN);
+  config.headers.common['Authorization'] = 'Bearer ' + token;
   return config;
 }, (error) => {
   errorHandle(error);
