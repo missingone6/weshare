@@ -4,7 +4,7 @@ import { LockOutlined, UserOutlined, SmileOutlined } from '@ant-design/icons';
 import { loginAction } from '../../api/login';
 import localStorage from '../../storage/localStorage';
 import { CAPTCHA_ID, TOKEN } from '../../storage/config';
-import useSvgCaptcha from '../hooks/useSvgCaptcha';
+import useSvgCaptcha from '../../hooks/useSvgCaptcha';
 import LoginWrapper from './style';
 
 const Login = () => {

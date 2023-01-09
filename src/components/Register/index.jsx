@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Form, Input, Space, message } from 'antd';
 import { LockOutlined, UserOutlined, SmileOutlined, RobotOutlined } from '@ant-design/icons';
 import RegisterWrapper from './style';
-import useSvgCaptcha from '../hooks/useSvgCaptcha';
+import useSvgCaptcha from '../../hooks/useSvgCaptcha';
 import { registerAction } from '../../api/login';
 import { CAPTCHA_ID } from '../../storage/config';
 
