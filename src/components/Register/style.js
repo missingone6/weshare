@@ -5,7 +5,7 @@ const RegisterWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 64px - 64px);
   .register-form{
     width: 384px;
     height: 448px;
