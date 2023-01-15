@@ -15,7 +15,6 @@ function generateReqKey(config) {
 
 function addPendingRequest(config) {
   const requestKey = generateReqKey(config);
-  console.log(requestKey)
   config.cancelToken =
     config.cancelToken ||
     new axios.CancelToken((cancel) => {

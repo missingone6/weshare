@@ -13,10 +13,14 @@ const LinkWrapper = styled.div`
   }
   .link-content{
     display: flex;
+    padding: 0 16px;
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
     min-height: 50px;
+    .link-href{
+      margin:10px;
+    }
   }
 `;
 

@@ -1,16 +1,21 @@
+import { useState, useEffect } from 'react';
 import HotTopicWrapper from './style';
 import { List } from 'antd';
 import { MessageOutlined } from '@ant-design/icons';
-
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-];
+import { getTopWeekAction } from '../../../../api/content';
 
 const HotTopic = () => {
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    const result = await getTopWeekAction()
+    setData(result.data);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
 
   return (
     <HotTopicWrapper>
@@ -21,8 +26,8 @@ const HotTopic = () => {
         dataSource={data}
         renderItem={(item) =>
           <List.Item className='list-item'>
-            <a href='#'>{item}</a>
-            <span className='grey'><MessageOutlined />88</span>
+            <a href='#'>{item.title}</a>
+            <span className='grey'><MessageOutlined />{item.answer}</span>
           </List.Item>
         }
       />

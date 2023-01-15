@@ -7,13 +7,22 @@ const getLitsAction = async (params) => {
   })
 }
 // 查询本周热议接口
-const getTopWeekAction = async (params) => {
-  return await service.get('/api/public/topWeek', {
-    params
-  })
+const getTopWeekAction = async () => {
+  return await service.get('/api/public/topWeek')
 }
 
+// 查询温馨提示接口
+const getTipsAction = async () => {
+  return await service.get('/api/public/tips')
+}
+
+// 查询温馨提示接口
+const getLinksAction = async () => {
+  return await service.get('/api/public/links')
+}
 export {
   getLitsAction,
-  getTopWeekAction
+  getTopWeekAction,
+  getTipsAction,
+  getLinksAction,
 }
