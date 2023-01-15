@@ -3,6 +3,36 @@ import { TOKEN } from "../storage/config";
 import localStorage from "../storage/localStorage";
 import { BASE_URL, TIMEOUT } from './config';
 import errorHandle from "./errorHandle";
+import qs from 'qs'
+const pendingRequest = new Map();
+
+function generateReqKey(config) {
+  const { method, url, params, data } = config;
+  return [method, url, qs.stringify(params), qs.stringify(data)].join(
+    "&"
+  );
+}
+
+function addPendingRequest(config) {
+  const requestKey = generateReqKey(config);
+  console.log(requestKey)
+  config.cancelToken =
+    config.cancelToken ||
+    new axios.CancelToken((cancel) => {
+      if (!pendingRequest.has(requestKey)) {
+        pendingRequest.set(requestKey, cancel);
+      }
+    });
+}
+
+function removePendingRequest(config) {
+  const requestKey = generateReqKey(config);
+  if (pendingRequest.has(requestKey)) {
+    const cancel = pendingRequest.get(requestKey);
+    cancel(requestKey);
+    pendingRequest.delete(requestKey);
+  }
+}
 
 const service = axios.create({
   baseURL: BASE_URL,
@@ -15,6 +45,8 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
   const token = localStorage.getItem(TOKEN);
   config.headers.common['Authorization'] = 'Bearer ' + token;
+  removePendingRequest(config); // 检查是否存在重复请求，若存在则取消已发的请求
+  addPendingRequest(config); // 把当前请求添加到pendingRequest对象中
   return config;
 }, (error) => {
   errorHandle(error);
@@ -22,6 +54,7 @@ service.interceptors.request.use((config) => {
 });
 
 service.interceptors.response.use((response) => {
+  removePendingRequest(response.config); // 从pendingRequest对象中移除请求
   // 处理数据格式
   if (response.status === 200) {
     return Promise.resolve(response.data);
@@ -29,9 +62,14 @@ service.interceptors.response.use((response) => {
     return Promise.reject(response);
   }
 }, (error) => {
-  errorHandle(error);
+  removePendingRequest(error.config || {}); // 从pendingRequest对象中移除请求
+  if (axios.isCancel(error)) {
+    console.log("已取消的重复请求：" + error.message);
+  } else {
+    // 添加异常处理
+    errorHandle(error);
+  }
   return Promise.reject(error);
 });
-
 
 export default service;
