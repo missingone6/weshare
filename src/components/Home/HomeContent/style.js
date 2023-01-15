@@ -11,7 +11,7 @@ const HomeContentWrapper = styled.div`
     font-size: 16px;
   }
   .my-list2{
-    margin-top: 16px;
+    margin-top: 10px;
   }
   .header2{
     height: 48px;

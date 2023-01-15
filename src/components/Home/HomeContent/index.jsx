@@ -1,11 +1,12 @@
 import HomeContentWrapper from './style';
 import { Menu } from 'antd';
 import MyList from './MyList';
+import { useState } from 'react';
 
 const menuConfig1 = [
   {
     label: '综合',
-    key: 'index',
+    key: '',
   },
   {
     label: '已结',
@@ -13,7 +14,7 @@ const menuConfig1 = [
   },
   {
     label: '未结',
-    key: '2',
+    key: '0',
   },
   {
     label: '精华',
@@ -23,39 +24,60 @@ const menuConfig1 = [
 const menuConfig2 = [
   {
     label: '按最新',
-    key: '0',
+    key: 'created',
   },
   {
     label: '按最热',
-    key: '1',
+    key: 'answer',
   },
 ]
-const HomeContent = () => {
-
+const HomeContent = ({ catalog }) => {
+  const [isEnd, setIsEnd] = useState('');
+  const [sort, setSort] = useState('created');
+  const handleMenu1Click = ({ key }) => {
+    setIsEnd(key)
+  }
+  const handleMenu2Click = ({ key }) => {
+    setSort(key)
+  }
   return (
     <HomeContentWrapper>
-      <MyList header={<div className='header1'>置顶</div>}></MyList>
-      <MyList className='my-list2' header={(<div className='header2'>
-        <div className='nav-area1'>
-          <Menu
-            style={{
-              height: "48px",
-            }}
-            mode="horizontal"
-            defaultSelectedKeys={['index']}
-            items={menuConfig1}
-          />
-        </div>
-        <div className='nav-area2'>
-          <Menu
-            style={{
-              height: "48px",
-            }}
-            mode="horizontal"
-            items={menuConfig2}
-          />
-        </div>
-      </div>)}></MyList>
+      <MyList
+        catalog={catalog}
+        isTop="1"
+        header={
+          <div className='header1'>置顶</div>
+        } />
+      <MyList
+        isTop="0"
+        catalog={catalog}
+        className='my-list2'
+        isEnd={isEnd}
+        sort={sort}
+        header={(<div className='header2'>
+          <div className='nav-area1'>
+            <Menu
+              style={{
+                height: "48px",
+              }}
+              mode="horizontal"
+              defaultSelectedKeys={['']}
+              onClick={handleMenu1Click}
+              items={menuConfig1}
+            />
+          </div>
+          <div className='nav-area2'>
+            <Menu
+              style={{
+                height: "48px",
+              }}
+              mode="horizontal"
+              defaultSelectedKeys={['created']}
+              onClick={handleMenu2Click}
+              items={menuConfig2}
+            />
+          </div>
+        </div>)} />
     </HomeContentWrapper>
   );
 }

@@ -1,4 +1,6 @@
 import { Menu, Input, Button } from 'antd';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HomeHeaderWrapper from './style';
 
 const { Search } = Input;
@@ -42,10 +44,18 @@ const menuConfig2 = [
     key: '2',
   },
 ]
-const HomeHeader = () => {
+const HomeHeader = ({ catalog }) => {
+  const navigate = useNavigate();
   const onSearch = (value) => {
     console.log(value)
   };
+  const handleMenu1Click = useCallback(
+    ({ key }) => {
+      navigate(`/home/${key}`);
+    },
+    [],
+  )
+
   return (
     <HomeHeaderWrapper>
       <div className='nav-area'>
@@ -54,8 +64,9 @@ const HomeHeader = () => {
             height: "48px",
           }}
           mode="horizontal"
-          defaultSelectedKeys={['index']}
+          defaultSelectedKeys={[catalog]}
           items={menuConfig1}
+          onClick={handleMenu1Click}
         />
       </div>
       <div className='nav-my-area'>
