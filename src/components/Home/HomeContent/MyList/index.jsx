@@ -4,6 +4,7 @@ import { Avatar, Button, List, Skeleton, Tag, Space } from 'antd';
 import { BulbOutlined, MessageOutlined } from '@ant-design/icons';
 import { getLitsAction } from '../../../../api/content';
 import { fromTime } from '../../../../utils'
+import { BASE_URL } from '../../../../service/config';
 // 分页，每次加载20个
 const limit = 20;
 // 点击加载更多，loading状态时页面显示骨架屏的个数
@@ -132,7 +133,7 @@ const MyList = ({ header, className, catalog, isTop, isEnd, sort }) => {
               >
                 <Skeleton avatar title={false} loading={item.loading} active>
                   <List.Item.Meta
-                    // avatar={<Avatar src={`${user.pic}`} />}
+                    avatar={<Avatar src={`${BASE_URL}${user.pic}`} />}
                     title={
                       <>
                         <Tag color={tagConfig[item.catalog].color}>

@@ -13,6 +13,9 @@ const PublicHeaderWrapper = styled.div`
   .login-area{
     float: right;
   }
+  .username{
+    padding-right: 5px;
+  }
 `;
 
 export default PublicHeaderWrapper

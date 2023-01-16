@@ -1,40 +1,44 @@
 import { useNavigate } from 'react-router-dom'
 import { Button, Checkbox, Form, Input, message, Space } from 'antd';
 import { LockOutlined, UserOutlined, SmileOutlined } from '@ant-design/icons';
-import { loginAction } from '../../api/login';
 import localStorage from '../../storage/localStorage';
 import { CAPTCHA_ID, TOKEN } from '../../storage/config';
 import useSvgCaptcha from '../../hooks/useSvgCaptcha';
 import LoginWrapper from './style';
+import { useDispatch } from 'react-redux';
+import { userLogin } from '../../store/features/userSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [svgCaptcha, refreshSvgCaptcha] = useSvgCaptcha();
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
   const onFinish = async (obj) => {
-    console.log('Success:', obj);
     const { username, password, code } = obj;
     const cid = localStorage.getItem(CAPTCHA_ID);
-    const result = await loginAction({
+    const result = unwrapResult(await dispatch(userLogin({
       username,
       password,
       cid,
       code
-    })
-    if (result.code === 200) {
+    })))
+    const { token, msg, code: returnCode } = result;
+    if (returnCode === 200) {
       messageApi.open({
         type: 'success',
-        content: result.msg + ',即将跳转到首页',
+        content: msg + ',即将跳转到首页',
       });
-      localStorage.setItem(TOKEN, result.token);
+      localStorage.setItem(TOKEN, token);
       setTimeout(() => {
-        navigate('/home')
+        navigate('/home/index')
       }, 1000);
     } else {
       refreshSvgCaptcha();
       messageApi.open({
         type: 'error',
-        content: result.msg,
+        content: msg,
       });
     }
   };
