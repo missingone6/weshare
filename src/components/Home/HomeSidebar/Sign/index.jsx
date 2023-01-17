@@ -15,14 +15,14 @@ const menuConfig = [
     key: '2',
   },
 ]
-const Sign = () => {
+const Sign = ({ border }) => {
   const [current, setCurrent] = useState('mail');
   const onClick = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
   };
   return (
-    <SignWrapper>
+    <SignWrapper border>
       <div className="sign-header">
         <div className='left'>
           <Menu

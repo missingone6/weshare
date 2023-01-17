@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 
 const SignWrapper = styled.div`
+  border: ${props => {
+    if (props.border) {
+      return '1px solid #ccc';
+    }
+  }};
+  border-radius: ${props => {
+    if (props.border) {
+      return '20px';
+    }
+  }};
   background-color: white;
   width: 100%;
   .red{
