@@ -15,6 +15,30 @@ const fromTime = (time) => {
 }
 
 
+/**
+ * 解析jwt
+ * @param {string} token jsonwebtoken
+ */
+const parseJwt = (token) => {
+  if (typeof token === 'string') {
+    return JSON.parse(window.atob(token.split(".")[1]));
+  }
+  throw new Error('token必须为字符串')
+}
+
+/**
+* 判断jwt是否过期
+* @param {string} token jsonwebtoken
+*/
+const isJwtExpired = (token) => {
+  if (moment().isBefore(moment(parseJwt(token).exp * 1000))){
+    return false;
+  }
+  return true;
+ 
+}
 export {
-  fromTime
+  fromTime,
+  parseJwt,
+  isJwtExpired,
 }
