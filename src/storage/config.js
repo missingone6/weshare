@@ -1,6 +1,6 @@
 const CAPTCHA_ID = 'captchaId';
 const TOKEN = 'token';
-const USERINF = 'userinf';
+const USERINF = 'userInf';
 
 export {
   CAPTCHA_ID,

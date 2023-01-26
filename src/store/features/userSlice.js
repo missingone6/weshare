@@ -26,21 +26,30 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-
+    setAuth: (state, { payload }) => {
+      state.token = payload.token;
+      state.userInf = payload.userInf;
+      state.isLogin = true;
+    },
+    // 用户点击退出
+    clearAuth: (state) => {
+      state.token = ''
+      state.userInf = {};
+      state.isLogin = false;
+    },
   },
   // extraReducers 字段让 slice 处理在别处定义的 actions， 
   // 包括由 createAsyncThunk 或其他slice生成的actions。
   extraReducers(builder) {
     builder
       .addCase(userLogin.fulfilled, (state, { payload }) => {
-        console.log("🚀 ~ fulfilled", payload);
         if (payload.code === 200) {
           console.log(payload);
           state.token = payload.token;
           state.userInf = payload.data;
           state.isLogin = true;
           // 将state值同步更新到localStorage中
-          localStorage.setItem(TOKEN, payload.data.token)
+          localStorage.setItem(TOKEN, payload.token)
           localStorage.setItem(USERINF, JSON.stringify(payload.data))
         }
         state.msg = payload.msg;
@@ -49,8 +58,7 @@ export const userSlice = createSlice({
   },
 })
 
-// Action creators are generated for each case reducer function
-// export const {  } = userSlice.actions
+export const { setAuth, clearAuth } = userSlice.actions
 
 export default userSlice.reducer
 

@@ -9,11 +9,17 @@ import Posts from "../components/Center/Posts";
 import Messages from "../components/Center/Messages";
 import ForgetPassword from "../components/ForgetPassword";
 import Index from "../components/Index";
+import RequireAuth from "../Auth/RequireAuth";
+import GetAuthFromLocalStorage from "../Auth/GetAuthFromLocalStorage";
 
 const config = [
   {
     path: "/",
-    element: <Index />,
+    element: (
+      <GetAuthFromLocalStorage>
+        <Index />
+      </GetAuthFromLocalStorage>
+    ),
     children: [
       {
         path: "/home/:catalog",
@@ -21,8 +27,12 @@ const config = [
       },
       {
         path: "/center",
-        element: <Center />,
-        children:[
+        element: (
+          <RequireAuth>
+            <Center />
+          </RequireAuth>
+        ),
+        children: [
           {
             path: "user",
             element: <User />,

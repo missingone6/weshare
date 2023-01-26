@@ -1,6 +1,6 @@
 import { FileOutlined, PieChartOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import CenterWrapper from './style';
 
@@ -26,11 +26,15 @@ const Center = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const [selectedKeys, setSelectedKeys] = useState('');
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  console.log(location)
+  useEffect(() => {
+    setSelectedKeys(location.pathname?.split('/')[2]);
+  }, [location.pathname])
+
   return (
     <CenterWrapper>
       <Layout
@@ -41,7 +45,7 @@ const Center = () => {
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
           <Menu
             theme='dark'
-            defaultSelectedKeys={[location.pathname?.split('/')[2]]}
+            selectedKeys={selectedKeys}
             mode="inline"
             items={menuConfig}
             onClick={({ key }) => navigate(`/center/${key}`)}
