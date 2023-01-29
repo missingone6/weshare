@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TOKEN } from "../storage/config";
 import localStorage from "../storage/localStorage";
-import { BASE_URL, TIMEOUT } from './config';
+import { BASE_URL, TIMEOUT, PUBLIC_PATH_ARRAY } from './config';
 import errorHandle from "./errorHandle";
 import qs from 'qs'
 const pendingRequest = new Map();
@@ -36,14 +36,18 @@ function removePendingRequest(config) {
 const service = axios.create({
   baseURL: BASE_URL,
   timeout: TIMEOUT,
-  headers:{
-    "Content-Type":"application/json;charset=utf-8"
+  headers: {
+    "Content-Type": "application/json;charset=utf-8"
   }
 });
 
 service.interceptors.request.use((config) => {
   const token = localStorage.getItem(TOKEN);
-  config.headers.common['Authorization'] = 'Bearer ' + token;
+  if (token
+    && !PUBLIC_PATH_ARRAY.some(item => item.test(config.url))
+  ) {
+    config.headers.common['Authorization'] = 'Bearer ' + token;
+  }
   removePendingRequest(config); // 检查是否存在重复请求，若存在则取消已发的请求
   addPendingRequest(config); // 把当前请求添加到pendingRequest对象中
   return config;
