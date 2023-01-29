@@ -1,14 +1,18 @@
 import { Layout } from 'antd';
-import { useMatch } from "react-router-dom";
+import { useMatch, Navigate } from "react-router-dom";
 import HomeWrapper from './style';
-import HomeHeader from './HomeHeader';
+import HomeHeader, { menuConfig1 } from './HomeHeader';
 import HomeContent from './HomeContent';
 import HomeSidebar from './HomeSidebar';
 const { Header, Content } = Layout;
 
+const catalogArray = menuConfig1.map(item => item.key);
+
 const Home = () => {
   const match = useMatch('/home/:catalog');
-
+  if (!catalogArray.includes(match.params.catalog)) {
+    return <Navigate to="/home/index" />
+  }
   return (
     <HomeWrapper>
       <Header

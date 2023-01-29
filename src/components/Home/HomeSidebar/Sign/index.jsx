@@ -110,9 +110,12 @@ const Sign = ({ border }) => {
             }}
           />
         </div>
-        <div className='right'>
-          已连续签到<span className='red'>{count}</span>天
-        </div>
+        {
+          userInf.isLogin
+          && <div className='right'>
+            已连续签到<span className='red'>{count}</span>天
+          </div>
+        }
       </div>
       <div className="sign-content">
         <div className="sign-content-area">

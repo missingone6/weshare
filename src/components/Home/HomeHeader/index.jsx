@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import HomeHeaderWrapper from './style';
 
 const { Search } = Input;
-const menuConfig1 = [
+export const menuConfig1 = [
   {
     label: '首页',
     key: 'index',
