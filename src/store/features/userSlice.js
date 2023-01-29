@@ -37,6 +37,9 @@ export const userSlice = createSlice({
       state.userInf = {};
       state.isLogin = false;
     },
+    setUserInf: (state, { payload }) => {
+      state.userInf = payload
+    },
   },
   // extraReducers 字段让 slice 处理在别处定义的 actions， 
   // 包括由 createAsyncThunk 或其他slice生成的actions。
@@ -58,7 +61,7 @@ export const userSlice = createSlice({
   },
 })
 
-export const { setAuth, clearAuth } = userSlice.actions
+export const { setAuth, clearAuth, setUserInf } = userSlice.actions
 
 export default userSlice.reducer
 

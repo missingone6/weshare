@@ -8,10 +8,20 @@ import 'moment/locale/zh-cn';
  */
 const fromTime = (time) => {
   if (moment(time).isBefore(moment().subtract(10, 'd'))) {
-    console.log(1)
-    return moment(time).format('YYYY-MM-DD');
+    return moment(time).format('YYYY-MM-DD HH:mm:ss');
   }
   return moment(time).fromNow();
+}
+
+/**
+ * 判断传入时间和当前时间是否都属于同一天
+ * @param {Moment} time 时间
+ */
+const compareTimeBelongToTheSameDay = (time1) => {
+  if (moment(time1).format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')) {
+    return true;
+  }
+  return false;
 }
 
 
@@ -31,14 +41,29 @@ const parseJwt = (token) => {
 * @param {string} token jsonwebtoken
 */
 const isJwtExpired = (token) => {
-  if (moment().isBefore(moment(parseJwt(token).exp * 1000))){
+  if (moment().isBefore(moment(parseJwt(token).exp * 1000))) {
     return false;
   }
   return true;
- 
+}
+
+/**
+* 根据积分返回对应颜色
+* @param {string} token jsonwebtoken
+*/
+const getColorByFavs = (favs) => {
+  if (favs <= 5) {
+    return '#87d068'
+  } else if (favs <= 10) {
+    return '#2db7f5'
+  } else {
+    return '#f50'
+  }
 }
 export {
   fromTime,
   parseJwt,
   isJwtExpired,
+  compareTimeBelongToTheSameDay,
+  getColorByFavs,
 }
