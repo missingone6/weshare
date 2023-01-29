@@ -11,6 +11,7 @@ import ForgetPassword from "../components/ForgetPassword";
 import Index from "../components/Index";
 import RequireAuth from "../Auth/RequireAuth";
 import GetAuthFromLocalStorage from "../Auth/GetAuthFromLocalStorage";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 const config = [
   {
@@ -64,6 +65,7 @@ const config = [
         element: <ForgetPassword />,
       },
     ],
+    errorElement: <ErrorBoundary />
   },
 ]
 const Route = createBrowserRouter(config)

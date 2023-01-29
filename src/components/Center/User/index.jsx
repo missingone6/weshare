@@ -26,7 +26,7 @@ const User = () => {
           </div>
           <div className="member-content">
             <div className="member-content-area">
-              <div>积分经验值：<span className='red'>5</span></div>
+              <div>积分经验值：<span className='red'>{userInf.favs}</span></div>
               <div>您当前为：<span className='red'>{userInf.isVip ? 'VIP' : '非VIP'}</span></div>
             </div>
           </div>
