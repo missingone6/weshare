@@ -12,7 +12,18 @@ const getFavsAction = async (params) => {
   });
 }
 
+// 发送邮箱更新邮件
+const sendmailAboutUsernameAction = async (params) => {
+  return await service.post('/api/email/username', params);
+}
+
+// 用户邮箱更新
+const usernameUpdateAction = async (params) => {
+  return await service.patch('/api/users/username', params);
+}
 export {
   SignInAction,
   getFavsAction,
+  sendmailAboutUsernameAction,
+  usernameUpdateAction,
 }

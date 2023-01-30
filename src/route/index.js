@@ -12,6 +12,7 @@ import Index from "../components/Index";
 import RequireAuth from "../Auth/RequireAuth";
 import GetAuthFromLocalStorage from "../Auth/GetAuthFromLocalStorage";
 import ErrorBoundary from "../components/ErrorBoundary";
+import Confirm from "../components/Confirm";
 
 const config = [
   {
@@ -63,6 +64,10 @@ const config = [
       {
         path: "/forget",
         element: <ForgetPassword />,
+      },
+      {
+        path: "/confirm",
+        element: <Confirm />,
       },
     ],
     errorElement: <ErrorBoundary />
