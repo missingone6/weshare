@@ -12,7 +12,8 @@ import Index from "../components/Index";
 import RequireAuth from "../Auth/RequireAuth";
 import GetAuthFromLocalStorage from "../Auth/GetAuthFromLocalStorage";
 import ErrorBoundary from "../components/ErrorBoundary";
-import Confirm from "../components/Confirm";
+import Username from "../components/Confirm/Username";
+import Password from "../components/Confirm/Password";
 
 const config = [
   {
@@ -67,7 +68,16 @@ const config = [
       },
       {
         path: "/confirm",
-        element: <Confirm />,
+        children: [
+          {
+            path: "username",
+            element: <Username />,
+          },
+          {
+            path: "password",
+            element: <Password />,
+          },
+        ]
       },
     ],
     errorElement: <ErrorBoundary />

@@ -1,14 +1,17 @@
 import { Button, Form, Input, message } from 'antd';
 import { useSelector } from "react-redux";
+import { useState } from 'react';
 import { sendmailAboutUsernameAction } from '../../../../api/user';
 
 const Profile = () => {
   const { userInf } = useSelector(state => state.user)
-
+  const [loading, setLoading] = useState(false);
   const onFinishEmail = async ({ username }) => {
+    setLoading(true);
     const { msg, code } = await sendmailAboutUsernameAction({
       username
     })
+    setLoading(false);
     if (code === 200) {
       message.open({
         type: 'success',
@@ -27,7 +30,7 @@ const Profile = () => {
   return (
     <>
       <Form
-        name="basic"
+        name="username"
         labelCol={{
           span: 3,
         }}
@@ -50,7 +53,7 @@ const Profile = () => {
             ]
           }
         >
-          <Input/>
+          <Input />
         </Form.Item>
         <Form.Item
           wrapperCol={{
@@ -58,7 +61,7 @@ const Profile = () => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             修改邮箱
           </Button>
         </Form.Item>

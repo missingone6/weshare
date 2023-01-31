@@ -17,13 +17,25 @@ const sendmailAboutUsernameAction = async (params) => {
   return await service.post('/api/email/username', params);
 }
 
+// 发送密码更新邮件
+const sendmailAboutPasswordAction = async (params) => {
+  return await service.post('/api/email/password', params);
+}
+
 // 用户邮箱更新
 const usernameUpdateAction = async (params) => {
   return await service.patch('/api/users/username', params);
+}
+
+// 用户密码更新
+const passwordUpdateAction = async (params) => {
+  return await service.patch('/api/users/password', params);
 }
 export {
   SignInAction,
   getFavsAction,
   sendmailAboutUsernameAction,
   usernameUpdateAction,
+  sendmailAboutPasswordAction,
+  passwordUpdateAction,
 }
