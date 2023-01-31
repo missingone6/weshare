@@ -1,12 +1,13 @@
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { uploadPhotoAction } from '../../../../api/content';
+import { BASE_URL } from '../../../../service/config';
+import { setUserInf } from '../../../../store/features/userSlice';
 import UploadPhotoWrapper from './style';
-const getBase64 = (img, callback) => {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-};
+
 const beforeUpload = (file) => {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
@@ -19,21 +20,35 @@ const beforeUpload = (file) => {
   return isJpgOrPng && isLt2M;
 };
 const UploadPhoto = () => {
+  const dispatch = useDispatch()
+  const { userInf } = useSelector(state => state.user)
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
-  const handleChange = (info) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (url) => {
-        setLoading(false);
-        setImageUrl(url);
+  const [imageUrl, setImageUrl] = useState(userInf?.pic);
+  const submit = async (obj) => {
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('photo', obj.file);
+    const result = await uploadPhotoAction(formData);
+    const { code, msg, data } = result;
+    if (code === 200) {
+      message.open({
+        type: 'success',
+        content: msg,
+      });
+      dispatch(setUserInf({
+        ...userInf,
+        pic: data,
+      }));
+      setImageUrl(data)
+    } else {
+      message.open({
+        type: 'error',
+        content: msg,
       });
     }
-  };
+    setLoading(false);
+  }
+
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -53,21 +68,20 @@ const UploadPhoto = () => {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        customRequest={submit}
         beforeUpload={beforeUpload}
-        onChange={handleChange}
       >
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt="avatar"
-              style={{
-                width: '100%',
-              }}
-            />
-          ) : (
-            uploadButton
-          )}
+        {imageUrl ? (
+          <img
+            src={`${BASE_URL}/public${imageUrl}`}
+            alt="avatar"
+            style={{
+              width: '100%',
+            }}
+          />
+        ) : (
+          uploadButton
+        )}
       </Upload>
     </UploadPhotoWrapper>
   );
