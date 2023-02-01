@@ -1,8 +1,21 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
+import { passwordUpdateAction } from '../../../../api/user';
 
 const ChangePassword = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const onFinish = async ({ oldp, newp }) => {
+    const { msg, code } = await passwordUpdateAction({ oldp, newp })
+    if (code === 200) {
+      message.open({
+        type: 'success',
+        content: msg,
+      });
+
+    } else {
+      message.open({
+        type: 'error',
+        content: msg,
+      });
+    }
   };
 
   return (
@@ -23,21 +36,21 @@ const ChangePassword = () => {
 
       <Form.Item
         label="当前密码"
-        name="nowPassword"
+        name="oldp"
         rules={[{ required: true, message: '请输入6至16位的密码', min: 6, max: 16 }]}
       >
         <Input type="password" />
       </Form.Item>
       <Form.Item
         label="新密码"
-        name="password"
+        name="newp"
         rules={[{ required: true, message: '请输入6至16位的密码', min: 6, max: 16 }]}
       >
         <Input type="password" />
       </Form.Item>
       <Form.Item
         label="确认密码"
-        name="repeatPassword"
+        name="password"
         dependencies={['password']}
         rules={[
           { required: true, message: '请输入6至16位的密码', min: 6, max: 16 },

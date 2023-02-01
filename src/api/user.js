@@ -27,10 +27,16 @@ const usernameUpdateAction = async (params) => {
   return await service.patch('/api/users/username', params);
 }
 
-// 用户密码更新
+// 用户重置密码
 const passwordUpdateAction = async (params) => {
   return await service.patch('/api/users/password', params);
 }
+
+// 用户基本信息更新
+const basicInfUpdateAction = async (params) => {
+  return await service.patch('/api/users/basic', params);
+}
+
 export {
   SignInAction,
   getFavsAction,
@@ -38,4 +44,5 @@ export {
   usernameUpdateAction,
   sendmailAboutPasswordAction,
   passwordUpdateAction,
+  basicInfUpdateAction,
 }

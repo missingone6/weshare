@@ -1,10 +1,11 @@
-import { Button, Form, Input, message } from 'antd';
-import { useSelector } from "react-redux";
+import { Button, Form, Input, message, Radio } from 'antd';
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from 'react';
-import { sendmailAboutUsernameAction } from '../../../../api/user';
-
+import { basicInfUpdateAction, sendmailAboutUsernameAction } from '../../../../api/user';
+import { setUserInf } from '../../../../store/features/userSlice'
 const Profile = () => {
   const { userInf } = useSelector(state => state.user)
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const onFinishEmail = async ({ username }) => {
     setLoading(true);
@@ -24,8 +25,23 @@ const Profile = () => {
       });
     }
   };
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const onFinishBasic = async (obj) => {
+    const { msg, code, data } = await basicInfUpdateAction(obj)
+    if (code === 200) {
+      message.open({
+        type: 'success',
+        content: msg,
+      });
+      dispatch(setUserInf({
+        ...userInf,
+        ...data
+      }));
+    } else {
+      message.open({
+        type: 'error',
+        content: msg,
+      });
+    }
   };
   return (
     <>
@@ -75,9 +91,11 @@ const Profile = () => {
           span: 8,
         }}
         initialValues={{
-          remember: true,
+          regmark: userInf.regmark,
+          name: userInf.name,
+          gender: userInf.gender
         }}
-        onFinish={onFinish}
+        onFinish={onFinishBasic}
         autoComplete="off"
       >
         <Form.Item
@@ -96,6 +114,12 @@ const Profile = () => {
           <Input.TextArea rows={4} placeholder="随便说点什么吧" />
         </Form.Item>
 
+        <Form.Item name="gender" label="性别">
+          <Radio.Group>
+            <Radio value="1">女</Radio>
+            <Radio value="0">男</Radio>
+          </Radio.Group>
+        </Form.Item>
         <Form.Item
           wrapperCol={{
             offset: 3,

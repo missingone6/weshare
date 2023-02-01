@@ -38,7 +38,8 @@ export const userSlice = createSlice({
       state.isLogin = false;
     },
     setUserInf: (state, { payload }) => {
-      state.userInf = payload
+      state.userInf = payload;
+      localStorage.setItem(USERINF, JSON.stringify(payload))
     },
   },
   // extraReducers 字段让 slice 处理在别处定义的 actions， 

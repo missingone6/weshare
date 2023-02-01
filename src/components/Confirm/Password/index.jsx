@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
-import { passwordUpdateAction } from '../../../api/user';
+import { forgetPasswordAction } from '../../../api/login';
 import ErrorBoundary from '../../ErrorBoundary';
 import Confirm from '../index';
 import { useCallback } from 'react';
@@ -11,7 +11,7 @@ const Password = () => {
   const navigate = useNavigate();
   const { username, key } = qs.parse(location.search.slice(1));
   const handleSubmit = useCallback(async () => {
-    const { msg, code } = await passwordUpdateAction({
+    const { msg, code } = await forgetPasswordAction({
       key
     })
     if (code === 200) {

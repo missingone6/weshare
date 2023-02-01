@@ -73,7 +73,7 @@ const UploadPhoto = () => {
       >
         {imageUrl ? (
           <img
-            src={`${BASE_URL}/public${imageUrl}`}
+            src={`${BASE_URL}${imageUrl}`}
             alt="avatar"
             style={{
               width: '100%',
