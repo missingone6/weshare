@@ -1,8 +1,8 @@
 import { Space } from 'antd';
-import Link from './Link';
-import Sign from './Sign';
-import HotTopic from './HotTopic';
-import Tips from './Tips';
+import Link from '../../public/PublicSidebar/Link';
+import Sign from '../../public/PublicSidebar/Sign';
+import HotTopic from '../../public/PublicSidebar/HotTopic';
+import Tips from '../../public/PublicSidebar/Tips';
 import HomeSidebarWrapper from './style';
 
 

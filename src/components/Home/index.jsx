@@ -1,7 +1,7 @@
 import { Layout } from 'antd';
 import { useMatch, Navigate } from "react-router-dom";
 import HomeWrapper from './style';
-import HomeHeader, { menuConfig1 } from './HomeHeader';
+import HomeHeader, { menuConfig1 } from '../public/PublicMenuHeader';
 import HomeContent from './HomeContent';
 import HomeSidebar from './HomeSidebar';
 const { Header, Content } = Layout;

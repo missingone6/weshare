@@ -1,6 +1,6 @@
 import StyleWrapper from './style';
 import { Button, Form, Input, Select, InputNumber, Modal, message } from 'antd';
-import { menuConfig1 as selectData } from '../Home/HomeHeader';
+import { menuConfig1 as selectData } from '../public/PublicMenuHeader';
 import MyEditor from './MyEditor';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

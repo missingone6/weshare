@@ -10,9 +10,6 @@ const HomeContentWrapper = styled.div`
     height: 48px;
     font-size: 16px;
   }
-  .my-list2{
-    margin-top: 10px;
-  }
   .header2{
     height: 48px;
     .nav-area1{

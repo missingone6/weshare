@@ -51,7 +51,6 @@ const HomeContent = ({ catalog }) => {
       <MyList
         isTop="0"
         catalog={catalog}
-        className='my-list2'
         isEnd={isEnd}
         sort={sort}
         header={(<div className='header2'>

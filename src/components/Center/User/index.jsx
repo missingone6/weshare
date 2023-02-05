@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import UserWrapper from './style';
 import { useSelector } from 'react-redux';
-import Sign from '../../Home/HomeSidebar/Sign'
+import Sign from '../../public/PublicSidebar/Sign'
 import { SettingOutlined } from '@ant-design/icons';
 const User = () => {
   const { userInf } = useSelector(state => state.user)
