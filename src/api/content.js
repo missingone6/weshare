@@ -27,10 +27,18 @@ const uploadPhotoAction = async (formData) => {
     "Content-Type": "'multipart/form-data"
   })
 }
+
+
+// 发表新帖
+const addPostsAction = async (params) => {
+  return await service.post('/api/content/posts', params)
+}
+
 export {
   getLitsAction,
   getTopWeekAction,
   getTipsAction,
   getLinksAction,
   uploadPhotoAction,
+  addPostsAction,
 }

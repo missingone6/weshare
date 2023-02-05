@@ -14,6 +14,7 @@ import GetAuthFromLocalStorage from "../Auth/GetAuthFromLocalStorage";
 import ErrorBoundary from "../components/ErrorBoundary";
 import Username from "../components/Confirm/Username";
 import Password from "../components/Confirm/Password";
+import AddPosts from "../components/AddPosts";
 
 const config = [
   {
@@ -30,10 +31,9 @@ const config = [
       },
       {
         path: "/center",
+        hasAuth: true,
         element: (
-          <RequireAuth>
-            <Center />
-          </RequireAuth>
+          <Center />
         ),
         children: [
           {
@@ -79,10 +79,31 @@ const config = [
           },
         ]
       },
+      {
+        path: "/add_posts",
+        hasAuth: true,
+        element: <AddPosts />,
+      },
     ],
     errorElement: <ErrorBoundary />
   },
 ]
+
+// 根据hasAuth属性是否为true来判断是否需要前端鉴权
+const handleConfig = (arr) => {
+  arr.forEach(obj => {
+    const { children, element, hasAuth } = obj;
+    if (hasAuth) {
+      obj.element = <RequireAuth children={element}></RequireAuth>
+    }
+    if (children && children.length !== 0) {
+      handleConfig(children)
+    }
+  })
+  return arr;
+}
+handleConfig(config);
+
 const Route = createBrowserRouter(config)
 
 export default Route;
