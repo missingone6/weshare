@@ -5,11 +5,12 @@ import { BulbOutlined, MessageOutlined } from '@ant-design/icons';
 import { getLitsAction } from '../../../../api/content';
 import { fromTime } from '../../../../utils'
 import { BASE_URL } from '../../../../service/config';
+import { useNavigate } from 'react-router-dom';
 // 分页，每次加载20个
 const limit = 20;
 // 点击加载更多，loading状态时页面显示骨架屏的个数
 const skeletonNumber = 1;
-const tagConfig = {
+export const tagConfig = {
   index: {
     name: "首页",
     color: "green"
@@ -43,6 +44,7 @@ const tagConfig = {
 const MyList = ({ header, className, catalog, isTop, isEnd, sort }) => {
   // 第几页
   const [page, setPage] = useState(0);
+  const navigate = useNavigate();
 
   const [initLoading, setInitLoading] = useState(true);
   // 防止在网速慢的情况下，用户多次点击加载更多按钮造成的页面重复渲染。类似于一个请求锁
@@ -68,6 +70,8 @@ const MyList = ({ header, className, catalog, isTop, isEnd, sort }) => {
     setTotal(result.total)
   }
 
+  const goQuestionPage = (id) => navigate(`/question/${id}`);
+  
   useEffect(() => {
     // 当catalog发生改变时,比如页面url从/home/index变成/home/ask,page参数应传0，因为MyList组件会复用。
     fetchData({
@@ -119,6 +123,7 @@ const MyList = ({ header, className, catalog, isTop, isEnd, sort }) => {
           loadMore={loadMore}
           dataSource={list}
           locale={{ emptyText: "快去发表第一条帖子吧！" }}
+          style={{ marginBottom: "10px" }}
           renderItem={(item) => {
             const { uid: user } = item;
             return (
@@ -130,6 +135,7 @@ const MyList = ({ header, className, catalog, isTop, isEnd, sort }) => {
                   ),
                   <div className='list-item-favs'><MessageOutlined />{item.answer}</div>,
                 ]}
+                onClick={goQuestionPage.bind(null, item._id)}
               >
                 <Skeleton avatar title={false} loading={item.loading} active>
                   <List.Item.Meta
@@ -146,7 +152,7 @@ const MyList = ({ header, className, catalog, isTop, isEnd, sort }) => {
                       <Space size="small">
                         <span>{user.name}</span>
                         {
-                          item.uisVip &&
+                          item.isVip &&
                           <span><Tag color="#f50">VIP</Tag></span>
                         }
                         <span>{fromTime(item.created)}</span>

@@ -34,6 +34,12 @@ const addPostsAction = async (params) => {
   return await service.post('/api/content/posts', params)
 }
 
+// 查询文章详情（帖子详情）
+const getDetailListAction = async (params) => {
+  return await service.get('/api/public/list', {
+    params
+  })
+}
 export {
   getLitsAction,
   getTopWeekAction,
@@ -41,4 +47,5 @@ export {
   getLinksAction,
   uploadPhotoAction,
   addPostsAction,
+  getDetailListAction,
 }

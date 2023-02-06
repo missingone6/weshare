@@ -15,6 +15,7 @@ import ErrorBoundary from "../components/ErrorBoundary";
 import Username from "../components/Confirm/Username";
 import Password from "../components/Confirm/Password";
 import AddPosts from "../components/AddPosts";
+import Questions from "../components/Questions";
 
 const config = [
   {
@@ -83,6 +84,18 @@ const config = [
         path: "/add_posts",
         hasAuth: true,
         element: <AddPosts />,
+      },
+      {
+        path: "/question/:id",
+        element: <Questions />,
+      },
+      {
+        path: "/aaa",
+        element: <Register />,
+      },
+      {
+        path: "/error",
+        element: <ErrorBoundary />,
       },
     ],
     errorElement: <ErrorBoundary />

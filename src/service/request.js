@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TOKEN } from "../storage/config";
 import localStorage from "../storage/localStorage";
-import { BASE_URL, TIMEOUT, PUBLIC_PATH_ARRAY } from './config';
+import { BASE_URL, TIMEOUT, PUBLIC_PATH_ARRAY, PRIVATE_PATH_ARRAY } from './config';
 import errorHandle from "./errorHandle";
 import qs from 'qs'
 const pendingRequest = new Map();
@@ -44,7 +44,11 @@ const service = axios.create({
 service.interceptors.request.use((config) => {
   const token = localStorage.getItem(TOKEN);
   if (token
-    && !PUBLIC_PATH_ARRAY.some(item => item.test(config.url))
+    && (
+      !PUBLIC_PATH_ARRAY.some(item => item.test(config.url))
+      || PRIVATE_PATH_ARRAY.some(item => item.test(config.url)
+      )
+    )
   ) {
     config.headers.common['Authorization'] = 'Bearer ' + token;
   }
