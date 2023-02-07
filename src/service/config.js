@@ -11,7 +11,8 @@ export const PUBLIC_PATH_ARRAY = [
   /^\/api\/public/,
 ]
 
-// 特殊的，需要鉴权的，需要带上jwt
+// 特殊的，以public开头却仍然需要鉴权的，需要带上jwt。
 export const PRIVATE_PATH_ARRAY = [
   /^\/api\/public\/comments$/,
+  /^\/api\/public\/list$/,
 ]

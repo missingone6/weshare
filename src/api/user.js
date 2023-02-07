@@ -37,6 +37,11 @@ const basicInfUpdateAction = async (params) => {
   return await service.patch('/api/users/basic', params);
 }
 
+// 收藏/取消收藏接口
+const setOrCancelCollectAction = async (params) => {
+  return await service.post('/api/users/collect', params);
+}
+
 export {
   SignInAction,
   getFavsAction,
@@ -45,4 +50,5 @@ export {
   sendmailAboutPasswordAction,
   passwordUpdateAction,
   basicInfUpdateAction,
+  setOrCancelCollectAction,
 }

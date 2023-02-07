@@ -6,6 +6,7 @@ import { getDetailListAction } from '../../../../api/content';
 import { BASE_URL } from '../../../../service/config';
 import { fromTime } from '../../../../utils';
 import { tagConfig } from '../../../Home/HomeContent/MyList';
+import { setOrCancelCollectAction } from '../../../../api/user';
 
 const Post = ({ pid }) => {
 
@@ -23,7 +24,17 @@ const Post = ({ pid }) => {
       });
     }
   }
-
+  // 收藏/取消收藏
+  const setPostCollect = async () => {
+    const result = await setOrCancelCollectAction({ pid });
+    if (result.code === 200) {
+      console.log(data);
+      setData({
+        ...data,
+        isCollect: result.isCollect
+      })
+    }
+  }
   useEffect(() => {
     fetchData();
   }, [])
@@ -44,9 +55,11 @@ const Post = ({ pid }) => {
             <div className="read">
               <EyeOutlined />{data.reads}
             </div>
-            <div className="like">
+            <div className="like" onClick={setPostCollect}>
               {
-                <StarOutlined />
+                data.isCollect == '0'
+                  ? <><StarOutlined /><span>收藏</span></>
+                  : <><StarFilled className="red" /><span>已收藏</span></>
               }
             </div>
           </div>
@@ -73,7 +86,6 @@ const Post = ({ pid }) => {
         </div>
         <div className="action-box">
           <Button type="link">删除</Button>
-          <Button type='primary'>编辑</Button>
         </div>
       </div>
 
@@ -83,7 +95,7 @@ const Post = ({ pid }) => {
           __html: data.content
         }}
       />
-    </StyleWrapper>
+    </StyleWrapper >
   );
 }
 export default Post;

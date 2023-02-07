@@ -23,6 +23,9 @@ const StyleWrapper = styled.div`
         }
         .like{
           cursor: pointer;
+          .red{
+            color: red;
+          }
         }
       }
       

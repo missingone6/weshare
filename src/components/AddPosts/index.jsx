@@ -39,7 +39,7 @@ const AddPosts = () => {
         content: msg,
       });
       localStorage.setItem(EDITORDATA, "");
-      navigate('/home/index')
+      navigate(`/question/${data._id}`);
     } else {
       message.open({
         type: 'error',

@@ -86,7 +86,7 @@ const HomeHeader = ({ catalog }) => {
             width: 200,
           }}
         />
-        <Button type="primary" className='ml15'>发表新帖</Button>
+        <Button type="primary" className='ml15' onClick={() => navigate('/add_posts')}>发表新帖</Button>
       </div>
     </HomeHeaderWrapper>
   );
