@@ -37,11 +37,11 @@ export const menuConfig1 = [
 const menuConfig2 = [
   {
     label: '我发表的帖',
-    key: '1',
+    key: 'asks',
   },
   {
     label: '我收藏的帖',
-    key: '2',
+    key: 'collections',
   },
 ]
 const HomeHeader = ({ catalog }) => {
@@ -55,7 +55,14 @@ const HomeHeader = ({ catalog }) => {
     },
     [],
   )
-
+  const handleMenu2Click = useCallback(
+    ({ key }) => {
+      navigate(`/center/posts`, {
+        state: key
+      });
+    },
+    [],
+  )
   return (
     <HomeHeaderWrapper>
       <div className='nav-area'>
@@ -76,6 +83,7 @@ const HomeHeader = ({ catalog }) => {
           }}
           mode="horizontal"
           items={menuConfig2}
+          onClick={handleMenu2Click}
         />
       </div>
       <div className='search-area'>

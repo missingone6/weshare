@@ -1,5 +1,6 @@
 
 import { Tabs } from 'antd';
+import { useLocation } from 'react-router-dom';
 import Asks from './Asks';
 import Collections from './Collections';
 
@@ -17,8 +18,9 @@ const tabsConfig = [
 ];
 
 const Posts = () => {
+  const location = useLocation();
   return (
-    <Tabs defaultActiveKey="asks" items={tabsConfig} />
+    <Tabs defaultActiveKey={location.state === '' ? "asks" : location.state} items={tabsConfig} />
   );
 };
 

@@ -49,6 +49,21 @@ const getPostsByUidAction = async (params) => {
   });
 }
 
+
+// 查询用户发贴记录(查询用户文章列表)
+const getPostsByCollectingAction = async (params) => {
+  return await service.get('/api/users/collect', {
+    params
+  });
+}
+
+// 删除帖子
+const deletePostsByUidAction = async (params) => {
+  return await service.delete('/api/users/list', {
+    params
+  });
+}
+
 export {
   SignInAction,
   getFavsAction,
@@ -59,4 +74,6 @@ export {
   basicInfUpdateAction,
   setOrCancelCollectAction,
   getPostsByUidAction,
+  getPostsByCollectingAction,
+  deletePostsByUidAction,
 }
