@@ -42,6 +42,13 @@ const setOrCancelCollectAction = async (params) => {
   return await service.post('/api/users/collect', params);
 }
 
+// 查询用户发贴记录(查询用户文章列表)
+const getPostsByUidAction = async (params) => {
+  return await service.get('/api/users/lists', {
+    params
+  });
+}
+
 export {
   SignInAction,
   getFavsAction,
@@ -51,4 +58,5 @@ export {
   passwordUpdateAction,
   basicInfUpdateAction,
   setOrCancelCollectAction,
+  getPostsByUidAction,
 }

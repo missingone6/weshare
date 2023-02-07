@@ -14,6 +14,16 @@ const fromTime = (time) => {
 }
 
 /**
+ * 根据对应时间显示几秒前、几分钟前、几天前
+ * 超过10天显示具体时间
+ * @param {Moment} time 时间
+ */
+const formatTime = (time) => {
+  return moment(time).format('YYYY-MM-DD HH:mm:ss');
+}
+
+
+/**
  * 判断传入时间和当前时间是否都属于同一天
  * @param {Moment} time 时间
  */
@@ -62,6 +72,7 @@ const getColorByFavs = (favs) => {
 }
 export {
   fromTime,
+  formatTime,
   parseJwt,
   isJwtExpired,
   compareTimeBelongToTheSameDay,
