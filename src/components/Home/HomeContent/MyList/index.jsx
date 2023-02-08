@@ -1,11 +1,14 @@
 import MyListWrapper from './style';
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, List, Skeleton, Tag, Space } from 'antd';
+import { Avatar, Divider, List, Skeleton, Tag, Space } from 'antd';
 import { BulbOutlined, MessageOutlined } from '@ant-design/icons';
 import { getLitsAction } from '../../../../api/content';
 import { fromTime } from '../../../../utils'
 import { BASE_URL } from '../../../../service/config';
 import { useNavigate } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
+
 // 分页，每次加载20个
 const limit = 20;
 // 点击加载更多，loading状态时页面显示骨架屏的个数
@@ -41,87 +44,67 @@ export const tagConfig = {
   },
 }
 
-const MyList = ({ header, className, catalog, isTop, isEnd, sort }) => {
-  // 第几页
-  const [page, setPage] = useState(0);
+const MyList = ({ header, className, catalog, isTop, isEnd, sort, key }) => {
+  //  分页第几页
+  const [pageSize, setPageSize] = useState(0);
   const navigate = useNavigate();
 
-  const [initLoading, setInitLoading] = useState(true);
-  // 防止在网速慢的情况下，用户多次点击加载更多按钮造成的页面重复渲染。类似于一个请求锁
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [list, setList] = useState([]);
   const [total, setTotal] = useState(0);
 
-  const fetchData = async ({ data, page }) => {
+  const loadMoreData = async () => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
     const result = await getLitsAction({
       isTop,
       catalog,
       limit,
-      page,
+      page: pageSize,
       isEnd,
       sort
     })
-    const newData = data.concat(result.data);
-    setData(newData);
-    setList(newData);
-    setInitLoading(false);
-    setPage(page + 1);
-    setTotal(result.total)
+    const { code, total } = result;
+    if (code === 200) {
+      setPageSize(pageSize + 1);
+      setData([...data, ...result.data]);
+      setTotal(total);
+    }
+    setLoading(false);
   }
 
   const goQuestionPage = (id) => navigate(`/question/${id}`);
-  
+
   useEffect(() => {
-    // 当catalog发生改变时,比如页面url从/home/index变成/home/ask,page参数应传0，因为MyList组件会复用。
-    fetchData({
-      page: 0,
-      data: [],
-    });
+    loadMoreData();
   }, [catalog, isEnd, sort]);
 
-
-  const onLoadMore = async () => {
-    setLoading(true);
-    setList(
-      data.concat([...new Array(skeletonNumber)].map(() => ({ loading: true, tags: [], catalog: "index", uid: {} }))),
-    );
-    await fetchData({ data, page });
-    setLoading(false);
-    // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
-    // In real scene, you can using public method of react-virtualized:
-    // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-    window.dispatchEvent(new Event('resize'));
-  };
-
-  const loadMore =
-    !initLoading
-      && !loading
-      && (page * limit) < total
-      ? (
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: 12,
-            height: 32,
-            lineHeight: '32px',
-          }}
-        >
-          <Button onClick={onLoadMore}>点我加载更多</Button>
-        </div>
-      ) : null;
-
   return (
-    <MyListWrapper>
-      {
-        (total !== 0 || isTop === '0') &&
+    !(total === 0 && isTop === '1')
+    && <MyListWrapper>
+      <InfiniteScroll
+        dataLength={data.length}
+        next={loadMoreData}
+        hasMore={data.length < total}
+        loader={
+          <Skeleton
+            avatar
+            paragraph={{
+              rows: skeletonNumber,
+            }}
+            active
+          />
+        }
+        endMessage={isTop == '0' && <Divider plain>没有更多了🤐</Divider>}
+      >
         <List
+          key={key}
           header={header}
           className={className}
-          loading={initLoading}
           itemLayout="horizontal"
-          loadMore={loadMore}
-          dataSource={list}
+          dataSource={data}
           locale={{ emptyText: "快去发表第一条帖子吧！" }}
           style={{ marginBottom: "10px" }}
           renderItem={(item) => {
@@ -174,9 +157,8 @@ const MyList = ({ header, className, catalog, isTop, isEnd, sort }) => {
           }
         >
         </List>
-      }
-
-    </MyListWrapper>
+      </InfiniteScroll>
+    </MyListWrapper >
   );
 }
 export default MyList;

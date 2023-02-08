@@ -43,12 +43,14 @@ const HomeContent = ({ catalog }) => {
   return (
     <HomeContentWrapper>
       <MyList
+        key={catalog + '1'}
         catalog={catalog}
         isTop="1"
         header={
           <div className='header1'>置顶</div>
         } />
       <MyList
+        key={catalog + '0'}
         isTop="0"
         catalog={catalog}
         isEnd={isEnd}

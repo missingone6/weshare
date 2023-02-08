@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect,  useState } from 'react';
 import { Timeline, Divider, Skeleton } from 'antd';
 import { getCommentsByUidAction } from '../../../../api/comments';
 import StyleWrapper from './style';
