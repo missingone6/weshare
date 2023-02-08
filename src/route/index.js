@@ -7,6 +7,7 @@ import User from "../components/Center/User";
 import Settings from "../components/Center/Settings";
 import Posts from "../components/Center/Posts";
 import Messages from "../components/Center/Messages";
+import CenterHome from "../components/Center/Home";
 import ForgetPassword from "../components/ForgetPassword";
 import Index from "../components/Index";
 import RequireAuth from "../Auth/RequireAuth";
@@ -53,6 +54,10 @@ const config = [
             path: "messages",
             element: <Messages />,
           },
+          {
+            path: "home",
+            element: <CenterHome />,
+          },
         ]
       },
       {
@@ -88,10 +93,6 @@ const config = [
       {
         path: "/question/:id",
         element: <Questions />,
-      },
-      {
-        path: "/aaa",
-        element: <Register />,
       },
       {
         path: "/error",

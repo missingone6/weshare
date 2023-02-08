@@ -12,6 +12,13 @@ const getCommentsAction = async (params) => {
   })
 }
 
+// 用户评论列表接口
+const getCommentsByUidAction = async (params) => {
+  return await service.get('/api/users/comments', {
+    params
+  })
+}
+
 // 评论点赞、评论取消点赞
 const setCommentsLikesAction = async (params) => {
   return await service.post('/api/comments/voters', params)
@@ -20,5 +27,6 @@ const setCommentsLikesAction = async (params) => {
 export {
   addCommentsAction,
   getCommentsAction,
+  getCommentsByUidAction,
   setCommentsLikesAction,
 }

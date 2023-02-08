@@ -37,6 +37,13 @@ const basicInfUpdateAction = async (params) => {
   return await service.patch('/api/users/basic', params);
 }
 
+// 查询用户基本信息
+const getBasicUserInfAction = async (params) => {
+  return await service.get('/api/users/basic', {
+    params
+  });
+}
+
 // 收藏/取消收藏接口
 const setOrCancelCollectAction = async (params) => {
   return await service.post('/api/users/collect', params);
@@ -72,6 +79,7 @@ export {
   sendmailAboutPasswordAction,
   passwordUpdateAction,
   basicInfUpdateAction,
+  getBasicUserInfAction,
   setOrCancelCollectAction,
   getPostsByUidAction,
   getPostsByCollectingAction,

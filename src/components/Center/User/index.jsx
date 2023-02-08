@@ -1,10 +1,34 @@
-import { Col, Row } from 'antd';
+import { Col, Row, message } from 'antd';
 import UserWrapper from './style';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Sign from '../../public/PublicSidebar/Sign'
 import { SettingOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
+import { getBasicUserInfAction } from '../../../api/user';
+import { setUserInf } from '../../../store/features/userSlice';
+
 const User = () => {
   const { userInf } = useSelector(state => state.user)
+  const dispatch = useDispatch()
+
+  const fetchData = async () => {
+    const { code, data, msg } = await getBasicUserInfAction();
+    if (code === 200) {
+      dispatch(setUserInf({
+        ...userInf,
+        ...data
+      }));
+    } else {
+      message.open({
+        type: 'error',
+        content: msg,
+      });
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
 
   return (
     <UserWrapper>

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Button, Drawer, Menu, Table, List, Avatar, message } from 'antd';
 import SignWrapper from './style';
 import DrawerExplain from './DrawerExplain';
@@ -27,7 +27,8 @@ const menuConfig = [
 
 
 const Sign = ({ border }) => {
-  const { userInf } = useSelector(state => state.user)
+  const { userInf, isLogin } = useSelector(state => state.user)
+
   const dispatch = useDispatch()
   const [current, setCurrent] = useState('signIn');
   const [isSignIn, setIsSignIn] = useState(() => {
@@ -45,6 +46,11 @@ const Sign = ({ border }) => {
   const [count, setCount] = useState(userInf.count);
   const [openExplain, setOpenExplain] = useState(false);
   const [openActiveList, setOpenActiveList] = useState(false);
+
+  useEffect(() => {
+    setCount(userInf.count)
+  }, [userInf.count])
+
   const onClick = (e) => {
     setCurrent(e.key);
     switch (e.key) {
@@ -111,7 +117,7 @@ const Sign = ({ border }) => {
           />
         </div>
         {
-          userInf.isLogin
+          isLogin
           && <div className='right'>
             已连续签到<span className='red'>{count}</span>天
           </div>
