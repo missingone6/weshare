@@ -8,9 +8,16 @@ const registerAction = async (params) => await service.post('/api/login/register
 const forgetPasswordAction = async (params) => {
   return await service.patch('/api/login/password', params);
 }
+
+// 用户验证注册接口
+const verifyRegisterAction = async (params) => {
+  return await service.post('/api/verify/register', params);
+}
+
 export {
   getCaptchaAction,
   loginAction,
   registerAction,
   forgetPasswordAction,
+  verifyRegisterAction,
 }

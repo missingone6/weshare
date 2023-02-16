@@ -15,6 +15,7 @@ import GetAuthFromLocalStorage from "../Auth/GetAuthFromLocalStorage";
 import ErrorBoundary from "../components/ErrorBoundary";
 import Username from "../components/Confirm/Username";
 import Password from "../components/Confirm/Password";
+import RegisterConfirm from "../components/Confirm/Register";
 import AddPosts from "../components/AddPosts";
 import Questions from "../components/Questions";
 
@@ -82,6 +83,10 @@ const config = [
           {
             path: "password",
             element: <Password />,
+          },
+          {
+            path: "register",
+            element: <RegisterConfirm />,
           },
         ]
       },
