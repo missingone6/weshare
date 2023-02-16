@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Home from "../components/Home";
@@ -29,7 +29,7 @@ const config = [
     children: [
       {
         path: "/home/:catalog",
-        element: <Home />,
+        element: (<Home />),
       },
       {
         path: "/center",
@@ -116,8 +116,12 @@ const handleConfig = (arr) => {
   })
   return arr;
 }
+
 handleConfig(config);
 
-const Route = createBrowserRouter(config)
+// const Route = useRoutes(config)
 
-export default Route;
+export default () => {
+  const element = useRoutes(config);;
+  return element
+};

@@ -2,6 +2,7 @@ import HomeContentWrapper from './style';
 import { Menu } from 'antd';
 import MyList from './MyList';
 import { useState } from 'react';
+import KeepAlive from 'react-activation';
 
 const menuConfig1 = [
   {
@@ -49,36 +50,39 @@ const HomeContent = ({ catalog }) => {
         header={
           <div className='header1'>置顶</div>
         } />
-      <MyList
-        key={catalog + '0'}
-        isTop="0"
-        catalog={catalog}
-        isEnd={isEnd}
-        sort={sort}
-        header={(<div className='header2'>
-          <div className='nav-area1'>
-            <Menu
-              style={{
-                height: "48px",
-              }}
-              mode="horizontal"
-              defaultSelectedKeys={['']}
-              onClick={handleMenu1Click}
-              items={menuConfig1}
-            />
-          </div>
-          <div className='nav-area2'>
-            <Menu
-              style={{
-                height: "48px",
-              }}
-              mode="horizontal"
-              defaultSelectedKeys={['created']}
-              onClick={handleMenu2Click}
-              items={menuConfig2}
-            />
-          </div>
-        </div>)} />
+
+      <KeepAlive>
+        <MyList
+          key={catalog + '0'}
+          isTop="0"
+          catalog={catalog}
+          isEnd={isEnd}
+          sort={sort}
+          header={(<div className='header2'>
+            <div className='nav-area1'>
+              <Menu
+                style={{
+                  height: "48px",
+                }}
+                mode="horizontal"
+                defaultSelectedKeys={['']}
+                onClick={handleMenu1Click}
+                items={menuConfig1}
+              />
+            </div>
+            <div className='nav-area2'>
+              <Menu
+                style={{
+                  height: "48px",
+                }}
+                mode="horizontal"
+                defaultSelectedKeys={['created']}
+                onClick={handleMenu2Click}
+                items={menuConfig2}
+              />
+            </div>
+          </div>)} />
+      </KeepAlive>
     </HomeContentWrapper>
   );
 }

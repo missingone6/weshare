@@ -35,11 +35,7 @@ const DrawerActiveList = ({ open, setOpen }) => {
     }
     setLoading(false);
   }
-  useEffect(() => {
-    fetchData({
-      sort: current
-    })
-  }, [])
+
   const onClick = async ({ key }) => {
     setCurrent(key);
     fetchData({

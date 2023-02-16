@@ -1,12 +1,15 @@
-import { RouterProvider } from "react-router-dom";
+import { BrowserRouter, RouterProvider } from "react-router-dom";
 import Route from "../../route";
 import 'antd/dist/reset.css';
+import { AliveScope } from 'react-activation'
 
 const App = () => {
   return (
-    <RouterProvider
-      router={Route}
-    />
+    <BrowserRouter>
+      <AliveScope>
+        <Route />
+      </AliveScope>
+    </BrowserRouter>
   );
 }
 

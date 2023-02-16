@@ -5,9 +5,10 @@ import { BulbOutlined, MessageOutlined } from '@ant-design/icons';
 import { getLitsAction } from '../../../../api/content';
 import { fromTime } from '../../../../utils'
 import { BASE_URL } from '../../../../service/config';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
+import { setScroll } from '../../../../store/features/scrollSlice';
+import { useDispatch } from 'react-redux';
 
 // 分页，每次加载20个
 const limit = 20;
@@ -53,6 +54,8 @@ const MyList = ({ header, className, catalog, isTop, isEnd, sort, key }) => {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
 
+  const dispatch = useDispatch();
+  const location = useLocation();
   const loadMoreData = async () => {
     if (loading) {
       return;
@@ -75,7 +78,13 @@ const MyList = ({ header, className, catalog, isTop, isEnd, sort, key }) => {
     setLoading(false);
   }
 
-  const goQuestionPage = (id) => navigate(`/question/${id}`);
+  const goQuestionPage = (id) => {
+    dispatch(setScroll({
+      scrollKey: location.key,
+      scrollData: document.documentElement.scrollTop,
+    }))
+    navigate(`/question/${id}`)
+  };
 
   useEffect(() => {
     loadMoreData();
