@@ -36,6 +36,9 @@ export const userSlice = createSlice({
       state.token = ''
       state.userInf = {};
       state.isLogin = false;
+      // 将state值同步更新到localStorage中
+      localStorage.removeItem(TOKEN);
+      localStorage.removeItem(USERINF);
     },
     setUserInf: (state, { payload }) => {
       state.userInf = payload;

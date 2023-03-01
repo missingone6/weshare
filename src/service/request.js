@@ -64,6 +64,16 @@ service.interceptors.response.use((response) => {
   removePendingRequest(response.config); // 从pendingRequest对象中移除请求
   // 处理数据格式
   if (response.status === 200) {
+    // 获取更新的token
+    const { authorization } = response.headers;
+    if (!authorization) {
+      // 防止用户登录时token过期
+      const { token } = response.data;
+      token && localStorage.setItem(TOKEN, token);
+      console.log(token)
+    }
+    //如果token存在则存在localStorage
+    authorization && localStorage.setItem(TOKEN, authorization);
     return Promise.resolve(response.data);
   } else {
     return Promise.reject(response);
